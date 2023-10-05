@@ -20,7 +20,7 @@ func (c *Client) CreateCell(cell *models.Cell) (*models.Cell, error) {
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode == http.StatusOK {
+	if resp.StatusCode == http.StatusCreated {
 		var cell *models.Cell
 		err := json.NewDecoder(resp.Body).Decode(&cell)
 		if err != nil {

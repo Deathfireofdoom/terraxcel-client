@@ -20,7 +20,7 @@ func (c *Client) CreateSheet(sheet *models.Sheet) (*models.Sheet, error) {
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode == http.StatusOK {
+	if resp.StatusCode == http.StatusCreated {
 		var sheet *models.Sheet
 		err := json.NewDecoder(resp.Body).Decode(&sheet)
 		if err != nil {
