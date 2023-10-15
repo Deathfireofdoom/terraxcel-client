@@ -55,8 +55,8 @@ func (c *Client) ReadWorkbook(WorkbookID string) (*models.Workbook, error) {
 	return nil, fmt.Errorf("received non-200 status code: %d", resp.StatusCode)
 }
 
-func (c *Client) DeleteWorkbook(WorkbookID string) error {
-	req, err := c.NewRequest(http.MethodDelete, "/workbook/"+WorkbookID, nil)
+func (c *Client) DeleteWorkbook(workbook models.Workbook) error {
+	req, err := c.NewRequest(http.MethodDelete, "/workbook/"+workbook.ID, nil)
 	if err != nil {
 		return err
 	}
