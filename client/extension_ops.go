@@ -7,6 +7,10 @@ import (
 )
 
 func (c *Client) ReadExtensions() ([]string, error) {
+	if c == nil {
+		return nil, fmt.Errorf("client is nil")
+	}
+
 	req, err := c.NewRequest(http.MethodGet, "/extension", nil)
 	if err != nil {
 		return nil, err
@@ -22,7 +26,7 @@ func (c *Client) ReadExtensions() ([]string, error) {
 		var extensions []string
 		err := json.NewDecoder(resp.Body).Decode(&extensions)
 		if err != nil {
-			return nil, nil
+			return nil, fmt.Errorf("error decoding response: %w", err)
 		}
 		return extensions, nil
 	}

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -35,17 +36,17 @@ func NewClient(config *ClientConfig) (*Client, error) {
 
 func (c *Client) NewRequest(method, endpoint string, body interface{}) (*http.Request, error) {
 	// Convert body to JSON if it's not nil
-	var buf *bytes.Buffer
+	var reader io.Reader // Use the io.Reader interface
 	if body != nil {
 		bodyBytes, err := json.Marshal(body)
 		if err != nil {
 			return nil, fmt.Errorf("error marshalling request body: %w", err)
 		}
-		buf = bytes.NewBuffer(bodyBytes)
+		reader = bytes.NewReader(bodyBytes) // Convert the byte slice to a reader
 	}
 
 	// Create a new HTTP request
-	req, err := http.NewRequest(method, c.BaseURL+endpoint, buf)
+	req, err := http.NewRequest(method, c.BaseURL+endpoint, reader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}

@@ -64,4 +64,11 @@ func main() {
 		log.Fatal("Error updating cell:", err)
 	}
 	fmt.Println("Cell updated with ID:", updatedCell.ID)
+
+	// Read extensions
+	extensions, err := c.ReadExtensions()
+	if err != nil {
+		log.Fatal("Error reading extensions:", err)
+	}
+	fmt.Println("Extensions:", extensions)
 }
